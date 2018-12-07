@@ -1,0 +1,14 @@
+<aside>
+	<img src="/images/01.jpg"/>
+	<ul>
+		<li><a href="http://127.0.0.1:3000"><img src="/images/home.png" />博客首页</a></li>
+		<li><a href="http://127.0.0.1:3000/about"><img src="/images/about.png" />关于博客</a></li>
+		<li><a href="http://127.0.0.1:3000/friends"><img src="/images/lianjie.png" />友情链接</a></li>
+		<li><a href="http://127.0.0.1:3000/edit"><img src="/images/write.png" />撰写文章</a></li>
+		<% if(isLogin){ %>
+			<li id="logOut"><strong><%= username %></strong> <a href="http://127.0.0.1:3000/logout">退出</a></li>
+		<% }else{ %>
+			<li><a href="http://127.0.0.1:3000/login"><img src="/images/login.png" />用户登录</a></li>
+		<% } %>
+	</ul>
+</aside>

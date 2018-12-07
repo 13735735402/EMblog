@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <%- include('../public/head.ejs') %>
+  <body>
+  	<div class="home">
+  		<%- include('../public/header.ejs') %>
+	    <%- include('../public/aside.ejs') %>
+	    <img src="/images/02.jpg" class="author-img"/>
+	    <!-- 登录界面 -->
+	    <div class="loginpage">
+	  		<section>
+	  			<h3>Login</h3><span id="close">关 闭</span>
+	  			<form>
+		    		<input type="text" id="username" class="form-control" placeholder="输入用户名"/><br />
+		    		<input type="password" id="password" class="form-control" placeholder="输入密码"/>
+		    		<div class="login-msg"></div>
+		    		<button type="submit" class="btn btn-primary login" style="width: 120px;position: absolute;right: 20px;">登 录</button>
+		    	</form>
+		    	<a href="javascript:;" style="color: #fff;" id="toReg">没有账号，前往注册</a>
+		    </section>
+	  	</div>
+	  	
+	    <div class="regpage">
+	  		<section>
+	  			<h3>Register</h3><span id="close">关 闭</span>
+	  			<form>
+		    		<input type="text" id="reg-username" class="form-control" placeholder="输入用户名"/><br />
+		    		<input type="password" id="reg-password" class="form-control" placeholder="输入密码"/><br />
+		    		<input type="password" id="reg-password2" class="form-control" placeholder="再次输入密码"/>
+		    		<div class="reg-msg"></div>
+		    		<button type="submit" class="btn btn-primary reg" style="width: 120px;position: absolute;right: 20px;">注 册</button>
+		    	</form>	
+		    	<a href="http://127.0.0.1:3000/login" style="color: #fff;">已有账号，返回登录</a>
+		    </section>
+	  	</div>
+	  	
+	    <%- include('../public/footer.ejs') %>
+		</div>
+  </body>
+  <script type="text/javascript">
+  	//登录验证ajax请求
+  	$('.login').click(function(event){
+  		event.preventDefault();
+			$.ajax({
+		   	url: 'http://127.0.0.1:3000/ajax_login',
+			  type:'POST',
+			  data:{
+			   	username:$('#username').val(),
+			   	password:$('#password').val()
+			  },
+			  success: function(data){
+			    $('.login-msg').html(data.msg);
+			    if(data.page){
+			    	window.location.href=data.page;
+			    }
+			  }
+			});
+  	});
+  	//注册验证ajax请求
+  	$('.reg').click(function(event){
+  		event.preventDefault();
+			$.ajax({
+		   	url: 'http://127.0.0.1:3000/ajax_reg',
+			  type:'POST',
+			  data:{
+			   	username:$('#reg-username').val(),
+			   	password:$('#reg-password').val(),
+			   	password2:$('#reg-password2').val()
+			  },
+			  success: function(data){
+			    $('.reg-msg').html(data.msg);
+			    if(data.page){
+			    	alert(data.message);
+			    	window.location.href=data.page;
+			    }
+			  }
+			});
+  	});
+  	//没有账号，前往注册
+  	$('#toReg').click(function(){
+  		$('.loginpage').hide();
+  		$('.regpage').show();
+  	});
+  	$('.loginpage #close').click(function(){
+  		$('.loginpage').hide();
+  	});
+  	$('.regpage #close').click(function(){
+  		$('.regpage').hide();
+  	});
+  </script>
+</html>

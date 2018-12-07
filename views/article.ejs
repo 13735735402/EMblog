@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <%- include('../public/head.ejs') %>
+  <body>
+  	<div class="home">
+  		<%- include('../public/header.ejs') %>
+	    <%- include('../public/aside.ejs') %>
+	    <img src="/images/02.jpg" class="author-img"/>
+	    <!-- 文章内容页 -->
+	    <div class="article">
+	    	<div class="article-title">
+	    		<h2><%= article.articleTitle %></h2>
+	    		<p>
+    				<span>
+    					作者：<%= article.articleAuthor %>
+    				</span>
+    				<span>
+    					发布时间：<%= article.articleTime %>
+    				</span>
+    				<span>
+    					浏览量：<%= article.articleClick %>
+    				</span>
+    			</p>
+	    	</div>
+	    	<div class="article-content">
+<pre>
+	
+</pre>
+	    	</div>
+	    </div>
+	    
+	    <%- include('../public/footer.ejs') %>
+		</div>
+  </body>
+  <script type="text/javascript">
+  	$(function(){
+  		var content = '<%= article.articleContent %>';
+  		//↓字符串转译成html标签
+  		function escapeStringHTML(str) {
+			    str = str.replace(/&lt;/g,'<');
+			    str = str.replace(/&gt;/g,'>');
+			    str = str.replace(/&#34;/g,'"');
+			    return str;
+			}
+  		$('.article-content pre').html(escapeStringHTML(content));
+  	});
+  </script>
+</html>

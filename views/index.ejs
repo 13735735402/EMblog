@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <%- include('../public/head.ejs') %>
+  <body>
+  <!-- 这是主页面 -->
+  	<div class="home">
+  		<%- include('../public/header.ejs') %>
+	    <%- include('../public/aside.ejs') %>
+	   	<img src="/images/02.jpg" class="author-img"/>
+	    <!-- 文章列表 -->
+	    <div class="articles">
+	    	<ul>
+	    		<% for(var i=articles.length-1;i>=0;i--){ %>
+	    		<li class="article-item">
+	    			<% var href = 'http://127.0.0.1:3000/articles/'+articles[i].articleID %>
+	    			<h2><a href="<%= href %>"><%= articles[i].articleTitle %></a></h2>
+		    		<section class="article-des">
+		    			<p>
+		    				<span>作者：<i><%= articles[i].articleAuthor %></i></span>
+		    				<span>发布时间：<i><%= articles[i].articleTime %></i></span>
+		    				<span>浏览量：<%= articles[i].articleClick %></span>
+		    			</p>
+		    		</section>
+	    		</li>
+	    		<% } %>
+	    	</ul>
+	    	
+	    </div>
+	    <%- include('../public/footer.ejs') %>
+		</div>
+  </body>
+</html>

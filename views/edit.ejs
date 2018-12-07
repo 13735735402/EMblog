@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <%- include('../public/head.ejs') %>
+  <body>
+  	<div class="home">
+  		<%- include('../public/header.ejs') %>
+	    <%- include('../public/aside.ejs') %>
+	    <img src="/images/02.jpg" class="author-img"/>
+	    <!-- 撰写文章 -->
+	    <div class="write">
+	    	<form>
+	    		<input type="text" name="title" id="title" class="form-control" placeholder="请输入文章标题" required="required"/>
+	    		<!--<textarea name="content" class="form-control" rows="16" placeholder="文章内容" required="required"></textarea>-->
+	    		
+	    		<div class="content">
+	            <div class="container-fluid" style="padding: 0;">
+	                <div id='pad-wrapper'>
+	                    <div id="editparent">
+	                        <div id='editControls' class='span12' style='text-align:center; padding:5px;'>
+	                            <div class='btn-group'>
+	                                <a class='btn' data-role='undo' href='#'><img src="/images/undo.png" /></a>
+	                                <a class='btn' data-role='redo' href='#'><img src="/images/repeat.png" /></a>
+	                            </div>
+	                            <div class='btn-group'>
+	                                <a class='btn' data-role='bold' href='#'><b>Bold</b></a>
+	                                <a class='btn' data-role='italic' href='#'><em>Italic</em></a>
+	                                <a class='btn' data-role='underline' href='#'><u><b>U</b></u></a>
+	                                <a class='btn' data-role='strikeThrough' href='#'><strike>abc</strike></a>
+	                            </div>
+	                            <div class='btn-group'>
+	                                <a class='btn' data-role='justifyLeft' href='#'><img src="/images/left.png" /></a>
+	                                <a class='btn' data-role='justifyCenter' href='#'><img src="/images/center.png" /></a>
+	                                <a class='btn' data-role='justifyRight' href='#'><img src="/images/right.png" /></a>
+	                                <a class='btn' data-role='justifyFull' href='#'><img src="/images/justify.png" /></a>
+	                            </div>
+	                            <div class='btn-group'>
+	                                <a class='btn' data-role='indent' href='#'><img src="/images/indent-right.png" /></a>
+	                                <a class='btn' data-role='outdent' href='#'><img src="/images/indent-left.png" /></a>
+	                            </div>
+	                            <div class='btn-group'>
+	                                <a class='btn' data-role='insertUnorderedList' href='#'><img src="/images/list-ul.png" /></a>
+	                                <a class='btn' data-role='insertOrderedList' href='#'><img src="/images/list-ol.png" /></a>
+	                            </div>
+	                            <div class='btn-group'>
+	                                <a class='btn' data-role='h1' href='#'>h<sup>1</sup></a>
+	                                <a class='btn' data-role='h2' href='#'>h<sup>2</sup></a>
+	                                <a class='btn' data-role='p' href='#'>p</a>
+	                            </div>
+	                            <div class='btn-group'>
+	                                <a class='btn' data-role='subscript' href='#'><img src="/images/subscript.png" /></a>
+	                                <a class='btn' data-role='superscript' href='#'><img src="/images/superscript.png" /></a>
+	                            </div>
+	                        </div>
+	                        <div id='editor' class='span12' style='' contenteditable>
+	                        	
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    		
+	    		<input type="submit" class="btn btn-primary editBtn" value="发 表" />
+	    	</form>
+	    </div>
+	    <%- include('../public/footer.ejs') %>
+		</div>
+  </body>
+  <script>
+    $(function() {
+        $('#editControls a').click(function(e) {
+            switch($(this).data('role')) {
+                case 'h1':
+                case 'h2':
+                case 'p':
+                    document.execCommand('formatBlock', false, '<' + $(this).data('role') + '>');
+                    break;
+                default:
+                    document.execCommand($(this).data('role'), false, null);
+                    break;
+            }
+        });
+        $('.editBtn').click(function(event){
+        	event.preventDefault();
+        	if($('#title').val()=='' || $('#editor').html()==''){
+        		alert('文章标题或内容不能为空');
+        	}else{
+        		$.ajax({
+					   	url: 'http://127.0.0.1:3000/ajax_edit',
+						  type:'POST',
+						  data:{
+						   	articleTitle:$('#title').val(),
+						   	articleContent:$('#editor').html()
+						  },
+						  success: function(data){
+						  	//alert(data.msg);
+						    if(data.page){
+						    	window.location.href=data.page;
+						    }
+						  }
+						});
+        	}
+        });
+    });
+</script>
+</html>
